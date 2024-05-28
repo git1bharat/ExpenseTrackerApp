@@ -1,4 +1,5 @@
 import 'package:expense_app/model/expense.dart' as action;
+import 'package:expense_app/model/expense.dart';
 import 'package:expense_app/screen/new_expenseList.dart';
 import 'package:expense_app/widget/expense_list.dart';
 import 'package:flutter/material.dart';
@@ -28,18 +29,26 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         date: DateTime.now(),
         category: action.Categories.travel),
   ];
-  void _addExpensesItem() {
+  void _openExpenseOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (ctx) => Container(
         height: MediaQuery.of(context).size.height *
-            0.75, // Adjust the height as needed
-        child: const SingleChildScrollView(
-          child: NewExpense(),
+            0.90, // Adjust the height as needed
+        child: SingleChildScrollView(
+          child: NewExpense(
+            onAddExpense: (_expense) => _addExpense(_expense),
+          ),
         ),
       ),
     );
+  }
+
+  void _addExpense(Expense expense) {
+    setState(() {
+      _expenses.add(expense);
+    });
   }
 
   @override
@@ -49,7 +58,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         title: Text('Expense Tracker'),
         actions: [
           IconButton(
-              onPressed: () => _addExpensesItem(), icon: const Icon(Icons.add))
+              onPressed: () => _openExpenseOverlay(),
+              icon: const Icon(Icons.add))
         ],
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [

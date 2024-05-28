@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+  final void Function(Expense _expense) onAddExpense;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -38,26 +39,35 @@ class _NewExpenseState extends State<NewExpense> {
         amountInvalid ||
         _selectedDate == null) {
       showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-                title: const Text('Invalid Text'),
-                content: const Text(
-                    'please make sure a valid title,amount,date,category, was enterd'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Oky')),
-                ]);
-          });
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Text('Invalid Text'),
+            content: const Text(
+                'please make sure a valid title,amount,date,category, was enterd'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Oky')),
+            ],
+          );
+        },
+      );
     }
+
+    widget.onAddExpense(Expense(
+        title: _titleEditngController.text,
+        amount: enteredAmount!,
+        date: _selectedDate!,
+        category: _selectedCategory));
   }
 
   @override
   void dispose() {
     _titleEditngController.dispose();
+    _ammountEditingController.dispose();
     super.dispose();
   }
 
