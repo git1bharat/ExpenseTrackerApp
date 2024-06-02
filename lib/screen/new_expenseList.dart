@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key, required this.onAddExpense});
+  const NewExpense(
+      {super.key, required this.onAddExpense, });
   final void Function(Expense _expense) onAddExpense;
+ 
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -136,6 +138,7 @@ class _NewExpenseState extends State<NewExpense> {
             ElevatedButton(
                 onPressed: () {
                   _submitExpenseData();
+                  Navigator.pop(context);
                 },
                 child: const Text('save expense'))
           ],

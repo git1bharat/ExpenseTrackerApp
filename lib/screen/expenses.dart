@@ -48,6 +48,13 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   void _addExpense(Expense expense) {
     setState(() {
       _expenses.add(expense);
+      print('your Expense length is after adding  ${_expenses.length}');
+    });
+  }
+
+  void _removeExpense(Expense expense) {
+    setState(() {
+      _expenses.remove(expense);
     });
   }
 
@@ -69,6 +76,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             height: 600,
             child: ExpensesList(
               expenses: _expenses,
+              onRemoveExpense: _removeExpense,
             ))
       ]),
     );
